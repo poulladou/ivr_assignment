@@ -9,7 +9,7 @@ from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from std_msgs.msg import Float64MultiArray, Float64
 from cv_bridge import CvBridge, CvBridgeError
-
+from imageprocessing import joint_pos
 
 class image_converter:
 
@@ -21,6 +21,11 @@ class image_converter:
     self.image_pub2 = rospy.Publisher("image_topic2",Image, queue_size = 1)
     # initialize a subscriber to recieve messages rom a topic named /robot/camera1/image_raw and use callback function to recieve data
     self.image_sub2 = rospy.Subscriber("/camera2/robot/image_raw",Image,self.callback2)
+    # initialize publishers to send joint angle data to topics
+    self.yellowPos_pub2 = rospy.Publisher("yellowPos_xz", Float64MultiArray, queue_size=10)    
+    self.bluePos_pub2 = rospy.Publisher("bluePos_xz", Float64MultiArray, queue_size=10)
+    self.greenPos_pub2 = rospy.Publisher("greenPos_xz", Float64MultiArray, queue_size=10)
+    self.redPos_pub2 = rospy.Publisher("redPos_xz", Float64MultiArray, queue_size=10)
     # initialize the bridge between openCV and ROS
     self.bridge = CvBridge()
 
@@ -34,12 +39,45 @@ class image_converter:
       print(e)
     # Uncomment if you want to save the image
     #cv2.imwrite('image_copy.png', cv_image)
+    
+    yellowPos,bluePos,greenPos,redPos=joint_pos(self.cv_image2)
+    
+    
+    #print("yellow: ",yellowPos)
+    #print("blue: ", bluePos)
+    #print("green: ", greenPos) 
+    #print("red: ", redPos)
+    
+    #j1 =-np.arctan2(yellowPos[0]-bluePos[0],yellowPos[1]-bluePos[1])
+    #print("j1: ",j1)
+    
+    #j3 =-(np.arctan2(bluePos[0]-greenPos[0],bluePos[1]-greenPos[1])-j1)
+    #print("j3: " ,j3)
+    
+    
+    
     im2=cv2.imshow('window2', self.cv_image2)
     cv2.waitKey(1)
+    
+    self.yellowPos2=Float64MultiArray()
+    self.yellowPos2.data=yellowPos
+    
+    self.bluePos2=Float64MultiArray()
+    self.bluePos2.data=bluePos
+    
+    self.greenPos2=Float64MultiArray()
+    self.greenPos2.data=greenPos
+    
+    self.redPos2=Float64MultiArray()
+    self.redPos2.data=redPos
 
     # Publish the results
     try: 
       self.image_pub2.publish(self.bridge.cv2_to_imgmsg(self.cv_image2, "bgr8"))
+      self.yellowPos_pub2.publish(self.yellowPos2)
+      self.bluePos_pub2.publish(self.bluePos2)
+      self.greenPos_pub2.publish(self.greenPos2)
+      self.redPos_pub2.publish(self.redPos2)  
     except CvBridgeError as e:
       print(e)
 
