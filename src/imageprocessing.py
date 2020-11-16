@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
 
-import roslib
-import sys
-import rospy
 import cv2
 import numpy as np
-from std_msgs.msg import String
-from sensor_msgs.msg import Image
-from std_msgs.msg import Float64MultiArray
-from cv_bridge import CvBridge, CvBridgeError
 
 def detect_blob(image, LB_thresh, UB_thresh):
   #Isolate colour bounded by values LB_thresh and UB_thresh as a binary image
