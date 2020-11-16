@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import image1
-import image2
 import roslib
 import sys
 import rospy
