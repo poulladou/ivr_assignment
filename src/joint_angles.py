@@ -24,7 +24,10 @@ class Server:
     self.greenPos2=None
     self.redPos2=None
     
-    self.joint_angles=rospy.Publisher("joint_angles",Float64MultiArray, queue_size=10)
+    #self.joint_angles=rospy.Publisher("joint_angles",Float64MultiArray, queue_size=10)
+    self.joint2_est= rospy.Publisher("joint2_est", Float64, queue_size=10)
+    self.joint3_est= rospy.Publisher("joint3_est", Float64, queue_size=10)
+    self.joint4_est= rospy.Publisher("joint4_est", Float64, queue_size=10)
     
   def callback1_yellowPos(self,msg):
     self.yellowPos1=msg
@@ -62,13 +65,20 @@ class Server:
   def compute_angles(self):
     if self.yellowPos1 is not None and self.bluePos1 is not None and self.greenPos1 is not None and self.redPos1 is not None and self.yellowPos2 is not None and self.bluePos2 is not None and self.greenPos2 is not None and self.redPos2 is not None:
       
-      angles=Float64MultiArray()
+      #angles=Float64MultiArray()
       
-      angles.data=joint_angles(self.yellowPos1.data, self.bluePos1.data, self.greenPos1.data, self.redPos1.data, self.yellowPos2.data, self.bluePos2.data, self.greenPos2.data, self.redPos2.data)
+      j2=Float64()
+      j3=Float64()
+      j4=Float64()
       
-      print(angles)
+      j2.data, j3.data, j4.data =joint_angles(self.yellowPos1.data, self.bluePos1.data, self.greenPos1.data, self.redPos1.data, self.yellowPos2.data, self.bluePos2.data, self.greenPos2.data, self.redPos2.data)
       
-      self.joint_angles.publish(angles)
+      #print(angles)
+      
+      #self.joint_angles.publish(angles)
+      self.joint2_est.publish(j2)
+      self.joint3_est.publish(j3)
+      self.joint4_est.publish(j4)
       
     
 if __name__=="__main__":

@@ -9,7 +9,7 @@ from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from std_msgs.msg import Float64MultiArray, Float64
 from cv_bridge import CvBridge, CvBridgeError
-from imageprocessing import joint_pos
+from image_processing import joint_wrt_base
 
 
 class image_converter:
@@ -42,7 +42,7 @@ class image_converter:
     # Uncomment if you want to save the image
     #cv2.imwrite('image_copy.png', self.cv_image1)
     
-    yellowPos,bluePos,greenPos,redPos=joint_pos(self.cv_image1)
+    yellowPos,bluePos,greenPos,redPos=joint_wrt_base(self.cv_image1)
     
     
     #print("yellow: ",yellowPos)
