@@ -134,7 +134,7 @@ def joint_angles(yellowPos1,bluePos1,greenPos1,redPos1,yellowPos2,bluePos2,green
   greenWRTblue= greenPos-bluePos
   
   #j2=np.arctan2(greenWRTblue[2], greenWRTblue[0]) 
-  j2=np.arctan2(-greenWRTblue[1], greenWRTblue[2]) 
+  j2=-np.arctan2(-greenWRTblue[1], greenWRTblue[2]) 
   
   #j3=np.arctan2(greenWRTblue[1], greenWRTblue[2]*3.5*(-3.5)*np.sin(j2))
   j3=np.arctan2(-greenWRTblue[0]*np.sin(j2), greenWRTblue[1])
