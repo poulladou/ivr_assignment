@@ -10,7 +10,7 @@ from sensor_msgs.msg import Image
 from std_msgs.msg import Float64MultiArray, Float64
 from cv_bridge import CvBridge, CvBridgeError
 
-from imageprocessing import joint_angles
+from image_processing import joint_angles
 
 class Server:
   def __init__(self):
