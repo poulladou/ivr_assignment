@@ -9,7 +9,7 @@ def get_circles(image):
   #Isolates black colour
   mask=cv2.inRange(image, (0,0,0), (15,15,15))
   #Gets circles centres and radius
-  circles = cv2.HoughCircles(mask,cv2.HOUGH_GRADIENT,dp=1,minDist=20,param1=100,param2=7,minRadius=1, maxRadius=15)
+  circles = cv2.HoughCircles(mask,cv2.HOUGH_GRADIENT,dp=1,minDist=20,param1=100,param2=7,minRadius=1, maxRadius=17)
   if circles is not None: 
     circles = np.uint16(np.around(circles))
   return circles
@@ -264,24 +264,15 @@ def compare_joints(circle1, circle2, circle3, circle4):
   
 # Identifies each joint as red, green, blue and yellow
 def identify_joints(joints1, num_circles1, joints2, num_circles2):
-  #if num_circles1 >=4 and num_circles2 >= 4:
-    circle1_1, circle2_1, circle3_1, circle4_1 = joints1
-    circle1_2, circle2_2, circle3_2, circle4_2 = joints2
-    # joints from two images combined
-    circle1, circle2, circle3, circle4 = joint_pos_3d(circle1_1, circle2_1, circle3_1, circle4_1,circle1_2, circle2_2, circle3_2, circle4_2)
-    # joints identified, converted to be with respect to fixed frame and in meter
-    redPos, greenPos, bluePos, yellowPos = compare_joints(circle1, circle2, circle3, circle4)
-    redPos, greenPos, bluePos, yellowPos = joint_wrt_base(redPos, greenPos, bluePos, yellowPos)
-      
-  #else:
-    # joints identified
-  #  redPos1, greenPos1, bluePos1, yellowPos1 = joints1
-  #  redPos2, greenPos2, bluePos2, yellowPos2 = joints2
-    # joints from two images combined and converted to be with respect to fixed frame and in meters
-  #  redPos, greenPos, bluePos, yellowPos = joint_pos_3d(redPos1, greenPos1, bluePos1, yellowPos1,redPos2, greenPos2, bluePos2, yellowPos2)
-  #  redPos, greenPos, bluePos, yellowPos = joint_wrt_base(redPos, greenPos, bluePos, yellowPos)
-    
-    return redPos, greenPos, bluePos, yellowPos
+  circle1_1, circle2_1, circle3_1, circle4_1 = joints1
+  circle1_2, circle2_2, circle3_2, circle4_2 = joints2
+  # joints from two images combined
+  circle1, circle2, circle3, circle4 = joint_pos_3d(circle1_1, circle2_1, circle3_1, circle4_1,circle1_2, circle2_2, circle3_2, circle4_2)
+  # joints identified, converted to be with respect to fixed frame and in meter
+  redPos, greenPos, bluePos, yellowPos = compare_joints(circle1, circle2, circle3, circle4)
+  redPos, greenPos, bluePos, yellowPos = joint_wrt_base(redPos, greenPos, bluePos, yellowPos)
+
+  return redPos, greenPos, bluePos, yellowPos
   
 # Calculates the joint angles
 def joint_angles(redPos, greenPos, bluePos, yellowPos):
@@ -294,7 +285,6 @@ def joint_angles(redPos, greenPos, bluePos, yellowPos):
   redWRTgreen = redPos-greenPos
 
   j4=np.arctan2(-redWRTgreen[2]*np.sin(j3) + redWRTgreen[0]*np.cos(j2)*np.cos(j3), redWRTgreen[0]*np.sin(j2))  
-
 
   return j2,j3,j4 
   

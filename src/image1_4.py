@@ -22,7 +22,7 @@ class image_converter:
     self.image_pub1 = rospy.Publisher("image_topic1",Image, queue_size = 1)
     # initialize a subscriber to recieve messages rom a topic named /robot/camera1/image_raw and use callback function to recieve data
     self.image_sub1 = rospy.Subscriber("/camera1/robot/image_raw",Image,self.callback1)
-    # initialize publishers to send joint angle data to topics
+    # initialize publishers to send joint position data to topics
     self.circle1_pub1 = rospy.Publisher("circle1_yz", Float64MultiArray, queue_size=10)
     self.circle2_pub1 = rospy.Publisher("circle2_yz", Float64MultiArray, queue_size=10)
     self.circle3_pub1 = rospy.Publisher("circle3_yz", Float64MultiArray, queue_size=10)
@@ -63,10 +63,10 @@ class image_converter:
     #print("circle3: ", circle3) 
     #print("circle4: ", circle4)
     
-
+    #shows circles detected
     img = self.cv_image1
     im_b=cv2.inRange(img, (0,0,0), (15,15,15))
-    circles = cv2.HoughCircles(im_b,cv2.HOUGH_GRADIENT,dp=1,minDist=20,param1=100,param2=7,minRadius=1, maxRadius=15) 
+    circles = cv2.HoughCircles(im_b,cv2.HOUGH_GRADIENT,dp=1,minDist=20,param1=100,param2=7,minRadius=1, maxRadius=17) 
     circles = np.uint16(np.around(circles))
     for i in circles[0,:]:
       cv2.circle(img, (i[0], i[1]), i[2], (0,255,0),2)
