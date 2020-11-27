@@ -85,7 +85,7 @@ if __name__=="__main__":
  
   server=Server()
   
-  rospy.init_node('angles')
+  rospy.init_node('angles', anonymous=True)
   
   rospy.Subscriber("/yellowPos_yz", Float64MultiArray, server.callback1_yellowPos)  
   rospy.Subscriber("/bluePos_yz", Float64MultiArray, server.callback1_bluePos)
