@@ -64,16 +64,16 @@ class image_converter:
     #print("circle4: ", circle4)
     
 
-    #img = self.cv_image1
-    #im_b=cv2.inRange(img, (0,0,0), (15,15,15))
-    #circles = cv2.HoughCircles(im_b,cv2.HOUGH_GRADIENT,dp=1,minDist=20,param1=100,param2=8,minRadius=1, maxRadius=15) 
-    #circles = np.uint16(np.around(circles))
-    #for i in circles[0,:]:
-    #  cv2.circle(im_b, (i[0], i[1]), i[2], (0,255,0),2)
-    #  cv2.circle(im_b, (i[0], i[1]),2, (0,0,255),3)
-    #cv2.imshow('detected circles', im_b)
+    img = self.cv_image1
+    im_b=cv2.inRange(img, (0,0,0), (15,15,15))
+    circles = cv2.HoughCircles(im_b,cv2.HOUGH_GRADIENT,dp=1,minDist=20,param1=100,param2=7,minRadius=1, maxRadius=15) 
+    circles = np.uint16(np.around(circles))
+    for i in circles[0,:]:
+      cv2.circle(img, (i[0], i[1]), i[2], (0,255,0),2)
+      cv2.circle(img, (i[0], i[1]),2, (0,0,255),3)
+    cv2.imshow('detected circles1', img)
 
-    im1=cv2.imshow('window1', self.cv_image1)
+    #im1=cv2.imshow('window1', self.cv_image1)
     cv2.waitKey(1)
     
     self.circle1_1=Float64MultiArray()
