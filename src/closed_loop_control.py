@@ -79,14 +79,12 @@ class closed_loop_control:
         self.joints_actual = data.position
 
     def callback1(self, data):
-        print(2)
         try:
             self.cv_image1 = self.bridge.imgmsg_to_cv2(data, 'bgr8')
         except CvBridgeError as e:
             print(e)
 
     def callback2(self, data):
-        print(3)
         try:
             self.cv_image2 = self.bridge.imgmsg_to_cv2(data, 'bgr8')
         except CvBridgeError as e:
