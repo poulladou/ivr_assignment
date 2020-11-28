@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+  <include file="$(find ivr_assignment)/launch/spawn.launch"/>
+    <node name="img1_joint_positions" pkg="ivr_assignment" type="image1_4.py" args="$(find ivr_assignment)/src/image1_4.py"/>
+    <node name="img2_joint_positions" pkg="ivr_assignment" type="image2_4.py" args="$(find ivr_assignment)/src/image2_4.py"/>
+    <node name="joints_move" pkg="ivr_assignment" type="joints_move.py" args="$(find ivr_assignment)/src/joints_move.py"/>
+    <node name="joint_angles" pkg="ivr_assignment" type="joint_angles_4.py" args="$(find ivr_assignment)/src/joint_angles_4.py"/>
+</launch>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+  <include file="$(find ivr_assignment)/launch/spawn.launch"/>
+    <node name="closed_loop_control" pkg="ivr_assignment" type="closed_loop_control.py" args="$(find ivr_assignment)/src/closed_loop_control.py"/>
+</launch>
