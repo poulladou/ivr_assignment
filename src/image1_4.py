@@ -27,14 +27,13 @@ class image_converter:
     self.circle2_pub1 = rospy.Publisher("circle2_yz", Float64MultiArray, queue_size=10)
     self.circle3_pub1 = rospy.Publisher("circle3_yz", Float64MultiArray, queue_size=10)
     self.circle4_pub1 = rospy.Publisher("circle4_yz", Float64MultiArray, queue_size=10)
-    self.num_circles_pub1 = rospy.Publisher("num_circles_yz", Float64, queue_size=10)    
     # initialize the bridge between openCV and ROS
     self.bridge = CvBridge()
     
   # Calculate the conversion from pixel to meter
   def pixel2meter(self, image):
     # Obtain the centre of each coloured blob
-    circle1, circle2, circle3, circle4, num_circles = get_joints(image)
+    circle1, circle2, circle3, circle4 = get_joints(image)
     # find the distance between two circles
     dist = np.sum((circle4 - circle3)**2)
     return 2.5 / np.sqrt(dist) 
@@ -55,7 +54,7 @@ class image_converter:
       
     #print(self.pixel2meter(self.cv_image1))
     
-    circle1, circle2, circle3, circle4, num_circles = get_joints(self.cv_image1)
+    circle1, circle2, circle3, circle4 = get_joints(self.cv_image1)
     
 
     #print("circle1: ",circle1)
@@ -88,9 +87,6 @@ class image_converter:
     self.circle4_1=Float64MultiArray()
     self.circle4_1.data=circle4
     
-    self.num_circles_1=Float64()
-    self.num_circles_1.data=num_circles
-    
     
     # Publish the results
     try: 
@@ -99,7 +95,6 @@ class image_converter:
       self.circle2_pub1.publish(self.circle2_1)
       self.circle3_pub1.publish(self.circle3_1)
       self.circle4_pub1.publish(self.circle4_1)    
-      self.num_circles_pub1.publish(self.num_circles_1) 
     except CvBridgeError as e:
       print(e)
 

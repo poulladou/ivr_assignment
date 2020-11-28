@@ -18,13 +18,11 @@ class Server:
     self.circle2_1=None
     self.circle3_1=None
     self.circle4_1=None
-    self.num_circles_1=None
     
     self.circle1_2=None    
     self.circle2_2=None
     self.circle3_2=None
     self.circle4_2=None
-    self.num_circles_2=None
     
     self.joint2_est= rospy.Publisher("joint2_est", Float64, queue_size=10)
     self.joint3_est= rospy.Publisher("joint3_est", Float64, queue_size=10)
@@ -46,10 +44,6 @@ class Server:
     self.circle4_1=msg
     self.compute_angles() 
     
-  def callback1_num_circles(self,msg):
-    self.num_circles_1=msg
-    self.compute_angles()  
-    
   def callback2_circle1(self,msg):
     self.circle1_2=msg
     self.compute_angles()  
@@ -66,13 +60,9 @@ class Server:
     self.circle4_2=msg
     self.compute_angles() 
     
-  def callback2_num_circles(self,msg):
-    self.num_circles_2=msg
-    self.compute_angles()    
-    
     
   def compute_angles(self):
-    if self.circle1_1 is not None and self.circle2_1 is not None and self.circle3_1 is not None and self.circle4_1 is not None and self.num_circles_1 is not None and self.circle1_2 is not None and self.circle2_2 is not None and self.circle3_2 is not None and self.circle4_2 is not None and self.num_circles_2 is not None:
+    if self.circle1_1 is not None and self.circle2_1 is not None and self.circle3_1 is not None and self.circle4_1 is not None and self.circle1_2 is not None and self.circle2_2 is not None and self.circle3_2 is not None and self.circle4_2 is not None:
       
       
       j2=Float64()
@@ -83,7 +73,7 @@ class Server:
       
       joints2 = (self.circle1_2.data, self.circle2_2.data, self.circle3_2.data, self.circle4_2.data)
       
-      redPos, greenPos, bluePos, yellowPos = identify_joints(joints1, self.num_circles_1.data, joints2, self.num_circles_2.data)
+      redPos, greenPos, bluePos, yellowPos = identify_joints(joints1, joints2)
       
       j2.data, j3.data, j4.data =joint_angles(redPos, greenPos, bluePos, yellowPos)
       
@@ -102,13 +92,11 @@ if __name__=="__main__":
   rospy.Subscriber("/circle2_yz", Float64MultiArray, server.callback1_circle2)
   rospy.Subscriber("/circle3_yz", Float64MultiArray, server.callback1_circle3)
   rospy.Subscriber("/circle4_yz", Float64MultiArray, server.callback1_circle4)
-  rospy.Subscriber("/num_circles_yz", Float64, server.callback1_num_circles)  
   
   rospy.Subscriber("/circle1_xz", Float64MultiArray, server.callback2_circle1)
   rospy.Subscriber("/circle2_xz", Float64MultiArray, server.callback2_circle2)
   rospy.Subscriber("/circle3_xz", Float64MultiArray, server.callback2_circle3)
   rospy.Subscriber("/circle4_xz", Float64MultiArray, server.callback2_circle4)
-  rospy.Subscriber("/num_circles_xz", Float64, server.callback2_num_circles)  
   
   
   rospy.spin()

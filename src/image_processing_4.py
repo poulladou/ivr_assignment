@@ -89,7 +89,7 @@ def get_joints(image):
   else:
     circle1, circle2, circle3, circle4 = other_circles(circles) 
     print('Too many or too few circles detected')
-  return circle1, circle2, circle3, circle4 , num_circles
+  return circle1, circle2, circle3, circle4 
   
 # Converts 2d coordinates to 3d	
 def to3d(posImage1, posImage2):
@@ -263,7 +263,7 @@ def compare_joints(circle1, circle2, circle3, circle4):
   return redPos, greenPos, bluePos, yellowPos
   
 # Identifies each joint as red, green, blue and yellow
-def identify_joints(joints1, num_circles1, joints2, num_circles2):
+def identify_joints(joints1, joints2):
   circle1_1, circle2_1, circle3_1, circle4_1 = joints1
   circle1_2, circle2_2, circle3_2, circle4_2 = joints2
   # joints from two images combined
