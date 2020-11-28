@@ -1,5 +1,5 @@
 # IVR Assignment
-##### Authors: Luciana Poulladou (s1746550) and Lewis Raeburn (s1744532)
+Authors: Luciana Poulladou (s1746550) and Lewis Raeburn (s1744532)
 
 
 ## **2 Robot Vision**
